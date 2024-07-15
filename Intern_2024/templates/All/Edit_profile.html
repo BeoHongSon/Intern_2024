@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="df w100-percent m-auto c-white">
+        <div class="df aic bg-black"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+        <div class="p10 bg-black">
+            <div class="wsp fwb">CAREPOINT CLINIC</div>
+            <div class="fs12">By Hong Son</div>
+        </div>
+        <div class="p10 aic df wsp bg-red tac">
+            <div>HOTLINE:</div>
+            <div class="fwb ml3">0987 654 321</div>
+        </div>
+
+        {% if user.role == 'admin' %}
+            <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+                <div><a href="/admin" class="tdc c-white">Home page</a></div>
+                <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div><a href="/admin/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/admin/create-account" class="tdc c-white"><div class="dropdown-item">Create account</a></div>
+                        <a href="/admin/delete-account" class="tdc c-white"><div class="dropdown-item">Delete account</a></div>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            </div>
+
+        {% elif user.role == 'doctor' %}
+            <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+                <div><a href="/doctor" class="tdc c-white">Home page</a></div>
+                <div><a href="/doctor/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/doctor/appointments" class="tdc c-white"><div class="dropdown-item">Appointments</div></a>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            </div>
+
+        {% elif user.role == 'patient' %}
+            <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+                <div><a href="/patient" class="tdc c-white">Home page</a></div>
+                <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/patient/appointments" class="tdc c-white"><div class="dropdown-item">Appointment</div></a>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div> 
+
+
+    <div class="container">
+        <h1>Edit profile</h1>
+        <form action="/edit-profile" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="fullname">Fullname:</label><br>
+                <input type="text" id="fullname" name="fullname" value="{{ user.fullname }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="birthdate">Date of birth:</label><br>
+                <input type="date" id="birthdate" name="birthdate" value="{{ user.birthdate }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" class="select">
+                    <option value="Male" {% if user.gender == 'Male' %} selected {% endif %}>Male</option>
+                    <option value="Female" {% if user.gender == 'Female' %} selected {% endif %}>Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Telephone number:</label><br>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" value="{{ user.phone }}" required>
+            </div>
+            
+            {% if user.role == 'doctor' %}
+                <div class="form-group">
+                    <label for="location">Location:</label><br>
+                    <input type="text" id="location" name="location" value="{% if career_detail %}{{ career_detail.location }}{% endif %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="speciality">Speciality:</label>
+                    <select id="speciality" name="speciality" class="select" required>
+                        <option value="" disabled selected hidden>Select speciality</option>
+                        <option value="Cardiology" {% if career_detail.speciality == 'Cardiology' %} selected {% endif %}>Cardiology</option>
+                        <option value="Neurology" {% if career_detail.speciality == 'Neurology' %} selected {% endif %}>Neurology</option>
+                        <option value="Orthopedics" {% if career_detail.speciality == 'Orthopedics' %} selected {% endif %}>Orthopedics</option>
+                        <option value="Dermatology" {% if career_detail.speciality == 'Dermatology' %} selected {% endif %}>Dermatology</option>
+                        <option value="Ophthalmology" {% if career_detail.speciality == 'Ophthalmology' %} selected {% endif %}>Ophthalmology</option>
+                        <option value="Psychiatry" {% if career_detail.speciality == 'Psychiatry' %} selected {% endif %}>Psychiatry</option>
+                        <option value="Oncology" {% if career_detail.speciality == 'Oncology' %} selected {% endif %}>Oncology</option>
+                        <option value="Pediatrics" {% if career_detail.speciality == 'Pediatrics' %} selected {% endif %}>Pediatrics</option>
+                        <option value="Obstetrics" {% if career_detail.speciality == 'Obstetrics' %} selected {% endif %}>Obstetrics</option>
+                        <option value="Endocrinology" {% if career_detail.speciality == 'Endocrinology' %} selected {% endif %}>Endocrinology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qualifications">Qualifications:</label>
+                    <select id="qualifications" name="qualifications" class="select" required>
+                        <option value="" disabled selected hidden>Select qualifications</option>                        
+                        <option value="Bachelor's degree" {% if career_detail.qualifications == "Bachelor's degree" %} selected {% endif %}>Bachelor's degree</option>
+                        <option value="Master's degree" {% if career_detail.qualifications == "Master's degree" %} selected {% endif %}>Master's degree</option>
+                        <option value="Doctoral degree" {% if career_detail.qualifications == "Doctoral degree" %} selected {% endif %}>Doctoral degree</option>
+                        <option value="Associate's degree" {% if career_detail.qualifications == "Associate's degree" %} selected {% endif %}>Associate's degree</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="years_of_experience">Years of Experience:</label><br>
+                    <input type="number" id="years_of_experience" name="years_of_experience" value="{% if career_detail %}{{ career_detail.years_of_experience }}{% endif %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="medical_expense">Medical expense</label><br>
+                    <input type="number" id="medical_expense" name="medical_expense" value="{% if career_detail %}{{ career_detail.medical_expense }}{% endif %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="medical_awards">Medical Awards:</label><br>
+                    <textarea class="custom-textarea" id="medical_awards" name="medical_awards">{% if career_detail %}{{ career_detail.medical_awards }}{% endif %}</textarea>
+                </div>
+                <div class="form-group"> 
+                    <label for="publications">Publications:</label><br>
+                    <textarea class="custom-textarea" id="publications" name="publications">{% if career_detail %}{{ career_detail.publications }}{% endif %}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="profile_picture">Profile Picture:</label><br>
+                    <input type="file" id="profile_picture" name="profile_picture">
+                </div>
+            {% elif user.role == 'patient' %}
+                <div class="form-group">
+                    <label for="medical_history">Medical history</label><br>
+                    <textarea class="custom-textarea" id="medical_history" name="medical_history">{% if medical_record %}{{ medical_record.medical_history }}{% endif %}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="symptoms">Symptoms</label><br>
+                    <textarea class="custom-textarea" id="symptoms" name="symptoms">{% if medical_record %}{{ medical_record.symptoms }}{% endif %}</textarea>
+                </div>
+            {% endif %}
+
+            <div class="form-group df jcsa">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+        <hr>
+        <div class="form-group df jcc">
+            <a href="/profile"><button>Back</button></a>
+        </div>
+    </div>
+
+    <div class="bottom-div">
+        <div class="w40-percent pl15">
+            <div class="df">
+                <div class="df aic"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+                <div class="df jcc fd-c">
+                    <div class="wsp fwb">CAREPOINT CLINIC</div>
+                </div>
+            </div>
+
+            <div class="fs18 pt10">Welcome to CarePoint Clinic – Your Health, Your App. 
+                Book appointments seamlessly and take control of your well-being with ease
+            </div>
+
+            <div class="fs18 pt10">Address: 275 Nguyen Trai street, Thanh Xuan distric, Hanoi
+            </div>
+        </div>
+
+        {% if user.role == 'admin' %}
+            <div class="w30-percent">
+                <div class="fs25 pt15">Links</div>
+                <div class="fs18">
+                    <div class="pt10"><a href="/admin" class="tdc c-white">Home page</a></div>
+                    <div class="pt10"><a href="/admin/about-us" class="tdc c-white">About us</a></div>
+                </div>
+            </div>
+        {% elif user.role == 'doctor' %}
+            <div class="w30-percent">
+                <div class="fs25 pt15">Links</div>
+                <div class="fs18">
+                    <div class="pt10"><a href="/doctor" class="tdc c-white">Home page</a></div>
+                    <div class="pt10"><a href="/doctor/about-us" class="tdc c-white">About us</a></div>
+                </div>
+            </div>
+        {% elif user.role == 'patient' %}
+            <div class="w30-percent">
+                <div class="fs25 pt15">Links</div>
+                <div class="fs18">
+                    <div class="pt10"><a href="/patient" class="tdc c-white">Home page</a></div>
+                    <div class="pt10"><a href="/patient/find-doctors" class="tdc c-white">Doctors</a></div>
+                    <div class="pt10"><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="w30-percent">
+            <div class="fs25 pt15">Follow us</div>
+            <div class="fs18">
+                <div>
+                    <a href="https://www.facebook.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504903.png"></div>
+                        <div class="pt10">Facebook</div>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.youtube.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504965.png"></div>
+                        <div class="pt10">Youtube</div>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.instagram.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504918.png"></div>
+                        <div class="pt10">Instagram</div>
+                    </a>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

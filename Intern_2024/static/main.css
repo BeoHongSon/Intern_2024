@@ -1,0 +1,362 @@
+.icon i {
+    font-size: 18px;
+    color: #999;
+}
+
+.nav-item {
+    position: relative;
+    cursor: pointer;
+  }  
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: red;
+    white-space: nowrap;
+    border: 2px solid black;
+  }
+  
+.nav-item:hover .dropdown {
+  display: block;
+}
+  
+.dropdown-item {
+  padding: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #555;
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #f4f4f4;
+}
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+h1 {
+  text-align: center;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  font-weight: bold;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="tel"],
+.form-group input[type="number"],
+.form-group input[type="password"] {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.form-group button {
+  min-width: 100px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.form-group button:hover {
+  background-color: #0056b3;
+}
+.select {
+  height: 30px;
+  width: 150px;
+}
+.select option {
+  text-align: center;
+}
+
+.outer-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background:linear-gradient(to right, blue, purple)
+}
+
+.centered-div {
+  width: 70%;
+  height: 90%;
+  margin: auto;
+  display: flex;
+  background-color: white;
+}
+
+.bottom-div {
+  background-color: rgb(58, 55, 55);
+  color: white;
+  display: flex;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.find-doctor-form{
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.find-doctor-form-input{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.find-doctor-form-input input[type="text"],
+.find-doctor-form-input input[type="number"],
+.left-detail input[type="submit"]{
+  height: 30px;
+}
+
+.find-doctor-form input[type="submit"]{
+  width: 100px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.display-doctors{
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.no-doctor{
+  margin-top: 40px;
+  font-size: 25px;
+  font-weight: bold;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.each-doctor{  
+  background-color: #fff;
+  margin: 40px auto;
+  width: 23%;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 25px gray;
+}
+
+.profile-pic{
+  width: 60%;
+  max-width: 250px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.doctor-name{
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.link_1{
+  text-decoration: none;
+  color: blue;
+}
+
+.link_2{
+  text-decoration: none;
+  color: white;
+}
+
+.profile-info {
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+.profile-info div {
+  font-weight: bold;
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+pre {
+  font-family: Arial, sans-serif;
+}
+
+.btn {
+  text-align: center;
+}
+
+.btn a {
+  text-decoration: none;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.btn a:hover {
+  background-color: #0056b3;
+}
+
+
+.show-detail{
+  width: 80%;
+  margin: auto;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 40px;
+  text-align: justify;
+}
+
+.left-detail{
+  width: 70%;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.right-detail{
+  width: 30%;
+}
+
+.appointments-day{
+  width: 50%;
+  text-align: center;
+  margin: 5px 0px;
+}
+
+.left-detail button {
+  width: 100px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.left-detail button:hover {
+  background-color: #0056b3;
+}
+
+.seperate-content{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content{
+  width: 50%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.main-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.calendar-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-header h2 {
+  margin: 0;
+}
+
+.calendar-header a {
+  text-decoration: none;
+  color: #007BFF;
+  font-size: 24px;
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.calendar th, .calendar td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+}
+
+.calendar th {
+  background: #f0f0f0;
+}
+
+.calendar td {
+  height: 40px;
+}
+.calendar td a {
+  display: flex; /* Đổi từ block sang flex */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+  top: 0;
+  left: 0;
+}
+.calendar td:not(:empty) {
+  background: #fff;
+}
+
+.calendar td:hover:not(:empty) {
+  background: #b4b4b4;
+}
+
+.calendar td.appointment-day {
+  background-color: red;
+  cursor: pointer;
+}
+
+.calendar td.appointment-day:hover {
+  background-color: #ff9999;
+}
+
+.custom-textarea {
+  width: 100%; /* Điều chỉnh chiều rộng theo nhu cầu */
+  height: 10em; /* Điều chỉnh chiều cao để chứa 4 dòng văn bản */
+  padding: 10px; /* Thêm khoảng cách bên trong */
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước tổng thể */
+  font-size: 16px; /* Điều chỉnh kích thước chữ */
+  line-height: 1.5em; /* Điều chỉnh khoảng cách dòng */
+}

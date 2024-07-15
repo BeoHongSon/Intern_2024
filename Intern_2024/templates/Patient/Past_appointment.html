@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past appointment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="df w100-percent m-auto c-white">
+        <div class="df aic bg-black"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+        <div class="p10 bg-black">
+            <div class="wsp fwb">CAREPOINT CLINIC</div>
+            <div class="fs12">By Hong Son</div>
+        </div>
+        <div class="p10 aic df wsp bg-red tac">
+            <div>HOTLINE:</div>
+            <div class="fwb ml3">0987 654 321</div>
+        </div>
+        <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+            <div><a href="/patient" class="tdc c-white">Home page</a></div>
+            <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+            <div><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+            <div class="nav-item" id="login">Account
+                <i class="fa fa-list"></i>
+                <div class="dropdown">
+                    <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                    <a href="/patient/appointments" class="tdc c-white"><div class="dropdown-item">Appointment</div></a>
+                    <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Review past appointment</h1>
+        <div class="df">
+            <div class="profile-info">
+                <div>Doctor fullname:</div>
+                <p>{{ past_appointment.fullname }}</p>
+            </div>
+            <div class="profile-info">
+                <div>Doctor speciality:</div>
+                <p>{{ past_appointment.speciality }}</p>
+            </div>
+        </div>
+        <div class="df">
+            <div class="profile-info">
+                <div>Doctor email:</div>
+                <p>{{ past_appointment.email }}</p>
+            </div>
+            <div class="profile-info">
+                <div>Doctor phone number:</div>
+                <p>{{ past_appointment.phone }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="mb20"><b>Day: </b> {{ past_appointment.appointment.strftime("%d - %m - %Y") }}</div>
+        {% if not past_appointment.doctor_prescription %}
+            {% if past_appointment.appointment >= today %}
+                <div class="c-red fs25">You haven't attended this appointment</div>
+            {% else %}
+                <div>You didn't attend this appointment</div>
+            {% endif %}
+        {% else %}
+            <div class="mb20"><b>Doctor prescription: </b><pre>{{ past_appointment.doctor_prescription }}</pre></div>
+            <div class="mb20"><b>Doctor note: </b><pre>{{ past_appointment.doctor_note }}</pre></div>
+        {% endif %}
+    </div>
+
+    <div class="bottom-div">
+        <div class="w40-percent pl15">
+            <div class="df">
+                <div class="df aic"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+                <div class="df jcc fd-c">
+                    <div class="wsp fwb">CAREPOINT CLINIC</div>
+                </div>
+            </div>
+
+            <div class="fs18 pt10">Welcome to CarePoint Clinic – Your Health, Your App. 
+                Book appointments seamlessly and take control of your well-being with ease
+            </div>
+
+            <div class="fs18 pt10">Address: 275 Nguyen Trai street, Thanh Xuan distric, Hanoi
+            </div>
+        </div>
+
+        <div class="w30-percent">
+            <div class="fs25 pt15">Links</div>
+            <div class="fs18">
+                <div class="pt10"><a href="/patient" class="tdc c-white">Home page</a></div>
+                <div class="pt10"><a href="/patient/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div class="pt10"><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+            </div>
+        </div>
+
+        <div class="w30-percent">
+            <div class="fs25 pt15">Follow us</div>
+            <div class="fs18">
+                <div>
+                    <a href="https://www.facebook.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504903.png"></div>
+                        <div class="pt10">Facebook</div>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.youtube.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504965.png"></div>
+                        <div class="pt10">Youtube</div>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.instagram.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504918.png"></div>
+                        <div class="pt10">Instagram</div>
+                    </a>
+                </div>
+            </div> 
+        </div>
+    </div>
+</body>
+</body>
+</html>

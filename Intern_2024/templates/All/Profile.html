@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>    
+    <div class="df w100-percent m-auto c-white">
+        <div class="df aic bg-black"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+        <div class="p10 bg-black">
+            <div class="wsp fwb">CAREPOINT CLINIC</div>
+            <div class="fs12">By Hong Son</div>
+        </div>
+        <div class="p10 aic df wsp bg-red tac">
+            <div>HOTLINE:</div>
+            <div class="fwb ml3">0987 654 321</div>
+        </div>
+
+        {% if user.role == 'admin' %}
+            <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+                <div><a href="/admin" class="tdc c-white">Home page</a></div>
+                <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div><a href="/admin/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/admin/create-account" class="tdc c-white"><div class="dropdown-item">Create account</a></div>
+                        <a href="/admin/delete-account" class="tdc c-white"><div class="dropdown-item">Delete account</a></div>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            </div>
+
+        {% elif user.role == 'doctor' %}
+            <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+                <div><a href="/doctor" class="tdc c-white">Home page</a></div>
+                <div><a href="/doctor/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/doctor/appointments" class="tdc c-white"><div class="dropdown-item">Appointments</div></a>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            </div>
+
+        {% elif user.role == 'patient' %}
+            <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+                <div><a href="/patient" class="tdc c-white">Home page</a></div>
+                <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/patient/appointments" class="tdc c-white"><div class="dropdown-item">Appointment</div></a>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>    
+
+
+    <div class="container">
+        <h1>Profile information</h1>
+        {% if user.role == 'doctor' %}
+        <div class="df jcc">
+            {% if career_detail.image %}
+                <img class="profile-pic" src="{{ show_profile_pic }}" alt="Profile Picture">
+            {% else %}
+                {% if user.gender == "Male" %}
+                    <img class="profile-pic" src="https://cdn-icons-png.flaticon.com/512/8815/8815112.png" alt="Profile Picture">
+                {% else %}
+                    <img class="profile-pic" src="https://cdn-icons-png.flaticon.com/512/3304/3304567.png" alt="Profile Picture">
+                {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="df">
+            <div class="profile-info">
+                <div>Fullname:</div>
+                <p>{{ user.fullname }}</p>
+            </div>
+            <div class="profile-info">
+                <div>Email:</div>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="df">
+            <div class="profile-info">
+                <div>Date of birth:</div>
+                <p>{{ user.birthdate.strftime('%d - %m - %Y') }}</p>
+            </div>
+            <div class="profile-info">
+                <div>Gender:</div>
+                <p>{{ user.gender }}</p>
+            </div>
+        </div>
+        <div class="df">
+            <div class="profile-info">
+                <div>Telephone number:</div>
+                <p>{{ user.phone }}</p>
+            </div>
+            <div class="profile-info">
+                <div>Role:</div>
+                <p>{{ user.role }}</p>
+            </div>
+        </div>
+        {% if user.role == 'admin' %}
+            <div class="df jcsa aic pt20">
+                <div class="btn">
+                    <a href="/edit-profile">Edit profile</a>
+                </div>
+                <div class="btn">
+                    <a href="/change-password">Change password</a>
+                </div>
+                <div class="btn">
+                    <a href="/back">Back</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if user.role != 'admin' %}
+        <div class="container">
+            {% if user.role == 'doctor' %}
+                <h1>Career detail</h1>
+                <div class="profile-info">
+                    <div>Location:</div>
+                    <p>{{ career_detail.location }}</p>
+                </div>
+                <div class="profile-info">
+                    <div>Speciality:</div>
+                    <p>{{ career_detail.speciality }}</p>
+                </div>
+                <div class="profile-info">
+                    <div>Qualifications:</div>
+                    <p>{{ career_detail.qualifications }}</p>
+                </div>
+                <div class="profile-info">
+                    <div>Years of Experience:</div>
+                    <p>{{ career_detail.years_of_experience }} year(s) of experience</p>
+                </div>
+                <div class="profile-info">
+                    <div>Medical expense:</div>
+                    <p>${{ career_detail.medical_expense }}</p>
+                </div>
+                <div class="profile-info">
+                    <div>Medical Awards:</div>
+                    <pre>{{ career_detail.medical_awards }}</pre>
+                </div>
+                <div class="profile-info">
+                    <div>Publications:</div>
+                    <pre>{{ career_detail.publications }}</pre>
+                </div>
+            {% else %}
+                <h1>Medical record</h1>
+                <div class="profile-info">
+                    <div>Medical history:</div>
+                    <pre>{{ medical_record.medical_history }}</pre>
+                </div>
+                <div class="profile-info">
+                    <div>Symptoms:</div>
+                    <pre>{{ medical_record.symptoms }}</pre>
+                </div>
+            {% endif %}
+            <div class="df jcsa aic pt20">
+                <div class="btn">
+                    <a href="/edit-profile">Edit profile</a>
+                </div>
+                <div class="btn">
+                    <a href="/change-password">Change password</a>
+                </div>
+                <div class="btn">
+                    <a href="/back">Back</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+ 
+    <div class="bottom-div">
+        <div class="w40-percent pl15">
+            <div class="df">
+                <div class="df aic"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+                <div class="df jcc fd-c">
+                    <div class="wsp fwb">CAREPOINT CLINIC</div>
+                </div>
+            </div>
+
+            <div class="fs18 pt10">Welcome to CarePoint Clinic – Your Health, Your App. 
+                Book appointments seamlessly and take control of your well-being with ease
+            </div>
+
+            <div class="fs18 pt10">Address: 275 Nguyen Trai street, Thanh Xuan distric, Hanoi
+            </div>
+        </div>
+
+        {% if user.role == 'admin' %}
+            <div class="w30-percent">
+                <div class="fs25 pt15">Links</div>
+                <div class="fs18">
+                    <div class="pt10"><a href="/admin" class="tdc c-white">Home page</a></div>
+                    <div class="pt10"><a href="/admin/about-us" class="tdc c-white">About us</a></div>
+                </div>
+            </div>
+        {% elif user.role == 'doctor' %}
+            <div class="w30-percent">
+                <div class="fs25 pt15">Links</div>
+                <div class="fs18">
+                    <div class="pt10"><a href="/doctor" class="tdc c-white">Home page</a></div>
+                    <div class="pt10"><a href="/doctor/about-us" class="tdc c-white">About us</a></div>
+                </div>
+            </div>
+        {% elif user.role == 'patient' %}
+            <div class="w30-percent">
+                <div class="fs25 pt15">Links</div>
+                <div class="fs18">
+                    <div class="pt10"><a href="/patient" class="tdc c-white">Home page</a></div>
+                    <div class="pt10"><a href="/patient/find-doctors" class="tdc c-white">Doctors</a></div>
+                    <div class="pt10"><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="w30-percent">
+            <div class="fs25 pt15">Follow us</div>
+            <div class="fs18">
+                <div>
+                    <a href="https://www.facebook.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504903.png"></div>
+                        <div class="pt10">Facebook</div>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.youtube.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504965.png"></div>
+                        <div class="pt10">Youtube</div>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.instagram.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504918.png"></div>
+                        <div class="pt10">Instagram</div>
+                    </a>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail {{ doctor_info.fullname }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="df w100-percent m-auto c-white">
+        <div class="df aic bg-black"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+        <div class="p10 bg-black">
+            <div class="wsp fwb">CAREPOINT CLINIC</div>
+            <div class="fs12">By Hong Son</div>
+        </div>
+        <div class="p10 aic df wsp bg-red tac">
+            <div>HOTLINE:</div>
+            <div class="fwb ml3">0987 654 321</div>
+        </div>
+        <div class="df jcsa aic w100-percent bg-black pl250 pt10 pb10 pr10 tu">
+            {% if user_role == patient %}
+                <div><a href="/patient" class="tdc c-white">Home page</a></div>
+                <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">                        
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/patient/appointments" class="tdc c-white"><div class="dropdown-item">Appointment</div></a>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            {% else %}
+                <div><a href="/admin" class="tdc c-white">Home page</a></div>
+                <div><a href="/find-doctors" class="tdc c-white">Doctors</a></div>
+                <div><a href="/admin/about-us" class="tdc c-white">About us</a></div>
+                <div class="nav-item" id="login">Account
+                    <i class="fa fa-list"></i>
+                    <div class="dropdown">
+                        <a href="/profile" class="tdc c-white"><div class="dropdown-item">Profile</div></a>
+                        <a href="/admin/create-account" class="tdc c-white"><div class="dropdown-item">Create account</a></div>
+                        <a href="/admin/delete-account" class="tdc c-white"><div class="dropdown-item">Delete account</a></div>
+                        <a href="/logout" class="tdc c-white"><div class="dropdown-item">Log out</div></a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="w100-percent m-auto bg-blue df c-white">
+        <div class="w40-percent m-auto df jcc">
+            {% if doctor_info.image %}
+                <img class="h300 pt40 pb40" src="/profile-picture/{{ doctor_info.user_id }}">
+            {% else %}
+                {% if doctor_info.gender == "Male" %}
+                    <img class="h300 pt40 pb40" src="https://cdn-icons-png.flaticon.com/512/8815/8815112.png">
+                {% else %}
+                    <img class="h300 pt40 pb40" src="https://cdn-icons-png.flaticon.com/512/3304/3304567.png">
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="w60-percent m-auto">
+            <div class="fs45 fwb p20">{{ doctor_info.fullname }}</div>
+            <div class="fs25 p20">{{ doctor_info.speciality }}</div>
+        </div>
+    </div>
+
+
+    <div class="show-detail">
+        <div class="left-detail">
+            <div class="fs30 fwb">Qualifications</div>
+            <div class="fs20 pt10">
+                {{ doctor_info.qualifications }}
+            </div>
+
+            <div class="fs30 fwb pt20">Years of experience</div>
+            <div class="fs20 pt10">More than {{ doctor_info.years_of_experience }} years of experience. Started career in {{ start_year }}.</div>
+
+            <div class="fs30 fwb pt20">Medical awards</div>
+            <div class="fs20 pt10">
+                <pre>{{ doctor_info.medical_awards }}</pre>
+            </div>
+
+            <div class="fs30 fwb pt20">Publications</div>
+            <div class="fs20 pt10 pb40">
+                <pre>{{ doctor_info.publications }}</pre>
+            </div>
+        </div>
+
+        <div class="right-detail">
+            <div class="bs bdr15 mb40">
+                <div class="fs30 fwb c-red m10">Contact</div>
+                <div class="df fs18">
+                    <div><img class="h25 m10" src="https://cdn-icons-png.flaticon.com/512/9068/9068642.png"></div>
+                    <div class="m10">{{ doctor_info.email }}</div>
+                </div>
+    
+                <div class="df fs18">
+                    <div><img class="h25 m10" src="https://cdn-icons-png.flaticon.com/512/724/724664.png"></div>
+                    <div class="m10 w100-percent">{{ formatted_phone }}</div>
+                </div>
+    
+                <div class="df fs18">
+                    <div><img class="h25 m10" src="https://cdn-icons-png.flaticon.com/512/14025/14025691.png"></div>
+                    <div class="m10">{{ doctor_info.location }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="bs bdr15 mb20">
+            <div class="fs30 fwb c-red m10">Available appointment</div>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <a href="{{ url_for('doctor_detail', doctor_id=doctor_id, month=month-1 if month > 1 else 12, year=year if month > 1 else year-1) }}">&lt;</a>
+                    <h2>{{ month_name }} {{ year }}</h2>
+                    <a href="{{ url_for('doctor_detail', doctor_id=doctor_id, month=month+1 if month < 12 else 1, year=year if month < 12 else year+1) }}">&gt;</a>
+                </div>
+                <table class="calendar">
+                    <thead>
+                        <tr>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                            <th>Sun</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in month_days %}
+                        <tr>
+                            {% for day in week %}
+                                {% if day != 0 %}
+                                    {% set date_str = '{}-{:02d}-{:02d}'.format(year, month, day) %}
+                                    {% set appointment_id = appointment_days.get(date_str) %}
+                                    <td class="{{ 'appointment-day' if appointment_id else '' }}">
+                                        {% if appointment_id %}
+                                        <a href="/doctor/{{ doctor_info.user_id }}/{{ appointment_id }}">{{ day }}</a>
+                                        {% else %}
+                                        {{ day }}
+                                        {% endif %}
+                                    </td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-div">
+        <div class="w40-percent pl15">
+            <div class="df">
+                <div class="df aic"><img class="w50 h50" src="https://cdn-icons-png.flaticon.com/512/3580/3580415.png"></div>
+                <div class="df jcc fd-c">
+                    <div class="wsp fwb">CAREPOINT CLINIC</div>
+                </div>
+            </div>
+
+            <div class="fs18 pt10">Welcome to CarePoint Clinic – Your Health, Your App. 
+                Book appointments seamlessly and take control of your well-being with ease
+            </div>
+
+            <div class="fs18 pt10">Address: 275 Nguyen Trai street, Thanh Xuan distric, Hanoi
+            </div>
+        </div>
+
+        <div class="w30-percent"> 
+            <div class="fs25 pt15">Links</div>   
+            <div class="fs18">
+                <div class="pt10"><a href="/patient" class="tdc c-white">Home page</a></div>   
+                <div class="pt10"><a href="/patient/find-doctors" class="tdc c-white">Doctors</a></div>   
+                <div class="pt10"><a href="/patient/about-us" class="tdc c-white">About us</a></div>
+            </div>
+        </div>
+
+        <div class="w30-percent">    
+            <div class="fs25 pt15">Follow us</div>   
+            <div class="fs18">
+                <div>
+                    <a href="https://www.facebook.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504903.png"></div>
+                        <div class="pt10">Facebook</div>   
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.youtube.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504965.png"></div>
+                        <div class="pt10">Youtube</div>   
+                    </a>
+                </div>
+
+                <div>
+                    <a href="https://www.instagram.com/" target="_blank" class="tdc c-white df">
+                        <div class="df aic"><img class="w25 h25" src="https://cdn-icons-png.flaticon.com/512/2504/2504918.png"></div>
+                        <div class="pt10">Instagram</div>   
+                    </a>
+                </div>
+            </div>        
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="outer-div">
+        <div class="centered-div">
+            <div class="w40-percent df aic jcc">
+                <img class="h200" src="https://cdn-icons-png.flaticon.com/512/6024/6024190.png">
+            </div>
+            
+            <div class="w60-percent df aic jcc">
+                <div>
+                    <div class="fs30 p20 tac">Login</div>                
+                    <form action="/login" method="POST">
+                        <div class="p20 df">
+                            <label for="email" class="df aic icon pl10 pr10">
+                                <i class="fa fa-envelope"></i>
+                            </label>
+                            <input class="h50 w250 bdr15" type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+
+                        <div class="p20 df">
+                            <label for="password" class="df aic icon pl10 pr10">
+                                <i class="fa fa-lock"></i>
+                            </label>
+                            <input class="h50 w250 bdr15" type="password" id="password" name="password" placeholder="Password" required>
+                        </div>
+    
+                        <div class="p20 df">
+                            <label for="role" class="df aic icon pl10 pr10">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            <select class="h50 w250 bdr15" id="role" name="role" required>
+                                <option value="" disabled selected hidden>User role</option>
+                                <option value="patient">Patient</option>
+                                <option value="doctor">Doctor</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+    
+                        <div class="df jcsa aic pt20">
+                            <button class="c-white bg-blue h50 w100 fs18 mt10 bdr15 cs" type="submit">Login</button>
+                            <a href="/" class="tac tdc c-white">
+                                <div class="bg-blue h50 w100 fs18 mt10 bdr15 cs bd-black df aic jcc">Back</div>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
